@@ -148,7 +148,8 @@ int main(int argc, char** args) {
         }
     } else if (strcmp(mode, "--E") == 0) {
         for (int i = 2; i < argc; i++) {
-            if ((input_file = openInputFile(args[i])) == NULL)
+            input_file = openInputFile(args[i]);
+            if (input_file == NULL)
                 continue;
 
             input_file_name = strtok(args[i], ".");

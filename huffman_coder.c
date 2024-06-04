@@ -119,30 +119,14 @@ void createOutputTree(Node* node, unsigned long long code, unsigned short depth)
             createOutputTree(node->right, code, depth + 1);
         }
     } else {
-        addBitToOutputTree(1); // находимся в листе
+        addBitToOutputTree(1);
         Byte byte_value = node->byte_value;
         
         for (int i = 0; i < 8; i++) {
             addBitToOutputTree(byte_value & 1);
             byte_value >>= 1;
         }
-        // printf("%3d : ", node->byte_value);`
-        // unsigned long long current_bit = 1;
-        // for (int i = 0; i < depth; i++) {
-        //     if (((code & current_bit) > 0) != (bytes_codes[node->byte_value][i / 8] & (1 << (i % 8))) > 0)
-        //         fprintf(stderr, "incorrect code: %d\n", node->byte_value);
-        //     // printf("%d", (code & current_bit) > 0);
-        //     current_bit <<= 1;
-        // }
-        // printf("\n");
     }
-
-    // if (node == root) {
-    //     printf("output tree: ");
-    //     for (int i = 0; i < output_tree_size; i++)
-    //         printf("%d", (output_tree[i / 8] & (1 << (i % 8))) > 0);
-    //     printf(" %d \n", output_tree_size);
-    // }
 }
 
 void destroyHuffmanCodes();
@@ -153,7 +137,6 @@ void initHuffmanCodes(unsigned long long bytes_frequency[MAX_BYTE_VALUE]) {
     Heap* heap = initHeap(nodesComparator);
 
     for (int i = 0; i < MAX_BYTE_VALUE; i++) {
-        // printf("%3d : %3llu\n", i, bytes_frequency[i]);
         if (bytes_frequency[i])
             insertElement(heap, (void*) createNode((Byte) i, bytes_frequency[i], NULL, NULL));
     }
@@ -173,12 +156,6 @@ void initHuffmanCodes(unsigned long long bytes_frequency[MAX_BYTE_VALUE]) {
 
     destroyHeap(heap);
     createOutputTree(root, 0, 0);
-    // for (int i = 0; i < MAX_BYTE_VALUE; i++) {
-    //     printf("%3d : ", i, bytes_codes_sizes[i]);
-    //     for (int j = 0; j < bytes_codes_sizes[i]; j++)
-    //         printf("%d", (bytes_codes[i][j / 8] & (1 << (j % 8))) > 0);
-    //     printf("\n");
-    // }
 }
 
 Byte* getOutputTree() {
@@ -254,30 +231,6 @@ unsigned char getBitInCode(Byte byte_value, unsigned char* result) { // 0 - chan
         current_bit_number++;
         return 1;
     }
-
-    // if (current_node == NULL)
-    //     current_node = root;
-//
-    // if (isLeaf(current_node)) {
-    //     current_node = NULL;
-    //     return 0;
-    // }
-    // if (search(current_node->left, byte_value)) {
-    //     current_node = current_node->left;
-    //     if (*result != 1)
-    //         fprintf(stderr, "Bad bit on %d\n", byte_value, bytes_codes_sizes[byte_value]);
-    //     *result = 1;
-    //     return 1;
-    // } else if (search(current_node->right, byte_value)) {
-    //     current_node = current_node->right;
-    //     if (*result != 0)
-    //         fprintf(stderr, "Bad bit on %d\n", byte_value, bytes_codes_sizes[byte_value]);
-    //     *result = 0;
-    //     return 1;
-    // } else {
-    //     current_node = NULL;
-    //     return 0;
-    // }
 }
 
 unsigned char getByteByBit(unsigned char bit_value, Byte* result) {
